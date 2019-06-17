@@ -16,11 +16,15 @@ optDes:()!()
 
 // Function to add required parameters
 addReq:{[rKey;dValue;des]
+    if[10h <> abs type des;'`$"Description must be a string"];
+    if[-11h <> type rKey;'`$"Required argument key must be a symbol"];
     .args.reqDict:.args.reqDict,(enlist rKey)!enlist dValue;
     .args.reqDes,:(enlist rKey)!enlist des;}
 
 // Function to add optional parameters
 addOpt:{[oKey;dValue;des]
+    if[10h <> abs type des;'`$"Description must be a string"];
+    if[-11h <> type oKey;'`$"Optional argument key must be a symbol"];
     .args.optDict:.args.optDict,(enlist oKey)!enlist dValue;
     .args.optDes,:(enlist oKey)!enlist des;}
 
@@ -34,22 +38,24 @@ buildDict:{
     testreq:not (key .args.reqDict) in key res;
     // Test if any is true, if true, print out man-like page
     if[any testreq;
-        .args.printManPage each (key .args.reqDict) where testreq;
+        .args.printErrManPage each (key .args.reqDict) where testreq;
         :"Error - Missing Required Argument"];
-    //output the built dictionary
+    // Create a new resultant dictionary from the valid input parameters
     res:.Q.def[fDict] .Q.opt .z.x;
+    // Only select keys generated via req and opt functions 
     (key fDict)!res[key fDict]}
 
-
-printManPage:{
-    -1"Error - Some required Arguments where not supplied: ";
-    -1 {string[x]} each x;
-    -1"";
-    -1"Arguments:";
+// Functon that prints a man-style list of arguments to the stderr
+// [Arg type] [kdb type] -argument <description>
+printErrManPage:{
+    -2"Error - Some required Arguments where not supplied: ";
+    -2 {string[x]} each x;
+    -2"";
+    -2"Arguments:";
     if[count key .args.reqDict; 
-        -1 .args.generateArgString[;`req] each key .args.reqDict];
+        -2 .args.generateArgString[;`req] each key .args.reqDict];
     if[count key .args.optDict; 
-        -1 .args.generateArgString[;`opt] each key .args.optDict];
+        -2 .args.generateArgString[;`opt] each key .args.optDict];
  }
 
 // Prints out a man-like page
