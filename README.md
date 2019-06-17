@@ -19,10 +19,10 @@ example.q
 show .args.buildDict[]
 ```
 
-If we had an example.q script, seen above, with input parameters `-abc 2.0 -bc 8 -12 "2010.01.01"`, it would create an error message like this:
+If we had an example.q script, seen above, with input parameters `-abc 2.0 -bc 8 -fc "2010.01.01"`, it would create an error message like this:
 
 ```
-cmd> q example.q -abc 2.0 -bc 8 -12 "2010.01.01"
+cmd> q example.q -abc 2.0 -bc 8 -fc "2010.01.01"
 
 Error - Some required Arguments where not supplied:
 abcd
@@ -39,12 +39,12 @@ However, if the correct input arguments are supplied, we will get a fully formed
 ```
 abc| 2f
 bc | 8i
-fc | 2009.01.01
+fc | 2010.01.01
 ```
 
 ## Authors
 
-* **Ryan McFarland** - *Initial work* - [Ryan McFarland](https://github.com/ryanmcfarland)
+* [**Ryan McFarland**](https://github.com/ryanmcfarland) - *Initial work*
 
 ## License
 
