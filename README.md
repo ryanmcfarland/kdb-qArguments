@@ -15,6 +15,8 @@ example.q
 .args.addReq[`abcd;0nf;"float input"]
 .args.addReq[`bc;0Ni;"integer input"]
 .args.addOpt[`fc;2009.01.01;"date input"]
+
+show .args.buildDict[]
 ```
 
 If we had an example.q script, seen above, with input parameters `-abc 2.0 -bc 8 -12 "2010.01.01"`, it would create an error message like this:
@@ -30,6 +32,14 @@ Arguments:
 [Required] [type: 6] -bc <integer input>
 [Optional] [type: 14] -fc <date input>
 "Error - Missing Required Argument"
+```
+
+However, if the correct input arguments are supplied, we will get a fully formed dictionary:
+
+```
+abc| 2f
+bc | 8i
+fc | 2009.01.01
 ```
 
 ## Authors
